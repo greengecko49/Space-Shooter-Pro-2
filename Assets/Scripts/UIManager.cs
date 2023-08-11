@@ -13,17 +13,25 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private TMP_Text _gameOverText;
     [SerializeField]
+    private TMP_Text _waveText;
+    [SerializeField]
+    private TMP_Text _ammoText;
+    [SerializeField]
     private Sprite[] _liveSprites;
     [SerializeField]
     private Image _LivesImg;
+    [SerializeField]
+    private Slider _thrusterSlider;
 
     private GameManager _gameManager;
     // Start is called before the first frame update
     void Start()
     {
         _scoreText.text = "Score: " + 0;
+        _ammoText.text = "Ammo: " + 15;
         _gameOverText.gameObject.SetActive(false);
         _restartText.gameObject.SetActive(false);
+        _waveText.gameObject.SetActive(false);
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
 
         if (_gameManager == null)
@@ -68,5 +76,28 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
         
+    }
+
+    public void UpdateThrusterUI(float value)
+    {
+        _thrusterSlider.value = value;
+    }
+
+    public void UpdateAmmo(int playerAmmo)
+    {
+        _ammoText.text = "Ammo " + playerAmmo + "/30";
+    }
+
+    IEnumerator WaveTextRoutine()
+    {
+        _waveText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3.0f);
+        _waveText.gameObject.SetActive(false);
+    }
+
+    public void UpdateWave(int waveCount)
+    {
+        _waveText.text = "Wave " + waveCount.ToString();
+        StartCoroutine(WaveTextRoutine());
     }
 }

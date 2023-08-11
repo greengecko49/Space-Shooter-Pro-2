@@ -7,6 +7,10 @@ TagManager:
   - Enemy
   - Laser
   - Powerup
+  - SpaceSword
+  - EnemyShield
+  - ReverseLaser
+  - Boss
   layers:
   - Default
   - TransparentFX

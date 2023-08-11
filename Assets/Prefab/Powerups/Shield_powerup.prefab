@@ -103,6 +103,7 @@ MonoBehaviour:
   _speed: 3
   _powerupID: 2
   _clip: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
+  _explosionPrefab: {fileID: 7624260233022945258, guid: 826853772ebd3e540a18fa0ba8833d3d, type: 3}
 --- !u!50 &7971501391502767882
 Rigidbody2D:
   serializedVersion: 4
