@@ -18,21 +18,24 @@ public class SpaceBoat : MonoBehaviour
     private Player _player;
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
+    private Laser _laser;
 
 
     private void Start()
     {
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _player = GameObject.Find("Player").GetComponent<Player>();
-        
-       
+
+
+
+
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        
+
         CalculateMovement();
         if (Time.time > _canFire)
         {
@@ -47,7 +50,7 @@ public class SpaceBoat : MonoBehaviour
 
         if (transform.position.y < 0 && _isRespawning == true)
         {
-            transform.position = Vector3.zero;
+            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
             int x = Random.Range(0, 100);
             if (x > 49)
             {
@@ -78,6 +81,8 @@ public class SpaceBoat : MonoBehaviour
         Instantiate(_photonPrefab, transform.position, Quaternion.identity);
     }
 
+
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
@@ -97,7 +102,7 @@ public class SpaceBoat : MonoBehaviour
         {
             if (_player != null)
             {
-                _uiManager.UpdateScore(30);
+                _player.AddScoreMethod();
             }
 
             Kill();
@@ -106,20 +111,40 @@ public class SpaceBoat : MonoBehaviour
 
         if (other.tag == "Laser")
         {
-            Destroy(other.gameObject);
+            HomingMissile missile = other.transform.GetComponent<HomingMissile>();
+            if (missile != null)
+            {
+                missile.Explosion();
+                Destroy(other.gameObject);
+            }
 
             if (_player != null)
             {
                 _player.AddScoreMethod();
+
             }
 
-            Kill();
+            Laser laser = other.transform.GetComponent<Laser>();
+            if (laser != null && laser.IsEnemyLaser() == false)
+            {
+                Destroy(other.gameObject);
+                if (_player != null)
+                {
+                    _player.AddScoreMethod();
+                }
+
+                Kill();
+            }
+
+
+
+
+
+
 
 
 
         }
-
-            
 
     }
 
@@ -134,8 +159,14 @@ public class SpaceBoat : MonoBehaviour
 
     }
 
+
+
+
     public void StopRespawning()
     {
+
         _isRespawning = false;
     }
+
+
 }

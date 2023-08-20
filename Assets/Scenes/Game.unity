@@ -455,8 +455,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _speedBoost: 8.5
-  _thrusterSpeed: 20
+  _speedBoost: 2.5
+  _thrusterSpeed: 10
   _ammo: 15
   _maxAmmo: 30
   _fuel: 100
@@ -542,7 +542,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 241008018}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.05, y: 8, z: 0}
+  m_LocalPosition: {x: -0.05, y: -1.12, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1375,10 +1375,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d870fc5ca65db0468b97561143aee39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefab: {fileID: 8668752913612171453, guid: 4ccfc9c3e3682ba47aeb0b5ec800344a, type: 3}
-  _enemySpaceTrain: {fileID: 4681255688564570114, guid: c920f4c1217446543ad5ba00539f2363, type: 3}
-  _enemySpaceTank: {fileID: 522038838702945921, guid: 4ae334e1de2748b4db12e7bfab7278e3, type: 3}
-  _enemySpaceBoat: {fileID: 4585931717792169995, guid: 2d8bbe45749439e44934764c518107c4, type: 3}
+  _enemyType:
+  - {fileID: 8668752913612171453, guid: 4ccfc9c3e3682ba47aeb0b5ec800344a, type: 3}
+  - {fileID: 4681255688564570114, guid: c920f4c1217446543ad5ba00539f2363, type: 3}
+  - {fileID: 4585931717792169995, guid: 2d8bbe45749439e44934764c518107c4, type: 3}
+  - {fileID: 522038838702945921, guid: 4ae334e1de2748b4db12e7bfab7278e3, type: 3}
   _bossShip: {fileID: 6830186674069259468, guid: 8b5f139e615bf10418e8442c9251ce9d, type: 3}
   _enemyContainer: {fileID: 1000963538}
   _powerups:
@@ -3207,9 +3208,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1510275353
+  m_SortingLayer: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: a45d21c30e0154a9ca1a5d6fb2bf3cfa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

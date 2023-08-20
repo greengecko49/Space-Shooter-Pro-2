@@ -7,9 +7,10 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _speed = 3.5f;
     [SerializeField]
-    private float _speedBoost = 5.5f;
+    private float _speedBoost = 2.0f;
     [SerializeField]
-    private float _thrusterSpeed = 20.5f;
+    private float _thrusterSpeed = 10.5f;
+    private Coroutine _cooldown;
     [SerializeField]
     private int _ammo = 15;
     [SerializeField]
@@ -56,6 +57,7 @@ public class Player : MonoBehaviour
     private bool _isSpeedBoostActive = false;
     private bool _isShieldsActive = false;
     private bool _isFuelCoolDownActive = false;
+    [SerializeField]
     private bool _isSpaceSwordActive = false;
     private bool _isMissileActive = false;
     private bool _isSpeedDownActive = false;
@@ -124,9 +126,17 @@ public class Player : MonoBehaviour
 
         //Thruster Method
 
-        if (Input.GetKey(KeyCode.LeftShift) && !_isFuelCoolDownActive)
+        if (Input.GetKey(KeyCode.LeftShift))
         {
-            
+            if (_isFuelCoolDownActive && _fuel > 0)
+            {
+                if (_cooldown != null)
+                {
+                    StopCoroutine(_cooldown);
+
+                }
+                _isFuelCoolDownActive = false;
+            }  
             if (_fuel > 0)
             {
                 transform.Translate(Vector3.right * horizontalInput * _thrusterSpeed * Time.deltaTime);
@@ -140,7 +150,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.LeftShift) && !_isFuelCoolDownActive)
         {
             
-            StartCoroutine(ThrusterCoolDownRoutine());
+            _cooldown = StartCoroutine(ThrusterCoolDownRoutine());
         }
 
 
@@ -277,8 +287,8 @@ public class Player : MonoBehaviour
     IEnumerator ThrusterCoolDownRoutine()
     {
         _isFuelCoolDownActive = true;
-        yield return new WaitForSeconds(3f);
-        while (_fuel < 100)
+        yield return new WaitForSeconds(1f);
+        while (_fuel <= 100)
         {
             _fuel += 15 * Time.deltaTime;
             if (_fuel >= 100f)

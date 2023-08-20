@@ -115,12 +115,13 @@ public class SpaceTank : MonoBehaviour
             if(missile != null)
             {
                 missile.Explosion();
+                Destroy(other.gameObject);
             }
 
-            Destroy(other.gameObject);
             if (_player != null)
             {
                 _player.AddScoreMethod();
+
             }
 
             Laser laser = other.transform.GetComponent<Laser>();
@@ -131,10 +132,11 @@ public class SpaceTank : MonoBehaviour
                 {
                     _player.AddScoreMethod();
                 }
+
+                Kill();
             }
 
 
-            Kill();
 
             
 

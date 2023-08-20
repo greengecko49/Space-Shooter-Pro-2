@@ -92,9 +92,19 @@ public class EnemySpaceTrain : MonoBehaviour
                 _player.AddScoreMethod();
             }
 
-            
+            Laser laser = other.transform.GetComponent<Laser>();
+            if (laser != null && laser.IsEnemyLaser() == false)
+            {
+                Destroy(other.gameObject);
+                if (_player != null)
+                {
+                    _player.AddScoreMethod();
+                }
 
-            Kill();
+                Kill();
+            }
+
+
 
 
         }

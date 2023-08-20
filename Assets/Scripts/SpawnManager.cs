@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-
     [SerializeField]
-    private GameObject _enemyPrefab;
-    [SerializeField]
-    private GameObject _enemySpaceTrain;
-    [SerializeField]
-    private GameObject _enemySpaceTank;
-    [SerializeField]
-    private GameObject _enemySpaceBoat;
+    private GameObject[] _enemyType;
     [SerializeField]
     private GameObject _bossShip;
     [SerializeField]
@@ -40,6 +33,8 @@ public class SpawnManager : MonoBehaviour
 
     private int _powerUpToSpawn;
 
+    private int _enemyToSpawn;
+
     private void Start()
     {
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
@@ -54,9 +49,7 @@ public class SpawnManager : MonoBehaviour
         _uiManager.UpdateWave(_waveCount + 1);
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerupRoutine());
-        StartCoroutine(SpawnSpaceBoatRoutine());
-        StartCoroutine(SpawnSpaceTankRoutine());
-        StartCoroutine(SpawnSpaceTrainRoutine());
+        
 
 
     }
@@ -69,9 +62,9 @@ public class SpawnManager : MonoBehaviour
         while (_stopSpawning == false)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
-            GameObject newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
-            newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(5.0f);
+            ChoosAnEnemy();
+            Instantiate(_enemyType[_enemyToSpawn], posToSpawn, Quaternion.identity);
+            yield return new WaitForSeconds(6.0f);
         }
     }
 
@@ -202,41 +195,60 @@ public class SpawnManager : MonoBehaviour
     }
 
 
-    IEnumerator SpawnSpaceTrainRoutine()
+
+    void ChoosAnEnemy()
     {
-        yield return new WaitForSeconds(_spaceTrainTimer);
-        while(_stopSpawning == false)
+        int weightedTotal = 100;
+
+        int[] enemyTable =
         {
-            Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
-            GameObject newSpaceTrain = Instantiate(_enemySpaceTrain, posToSpawn, Quaternion.identity);
-            newSpaceTrain.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(7.0f);
+            50, //standard enemy
+            20, //enemy space train
+            10, //enemy space boat
+            20, //enemy space tank
+            
+        };
+        int[] EnemyToSpawn =
+        {
+            0, //standard enemy
+            1, //enemy space train
+            2, //enemy space boat
+            3, //enemy space tank
+            
+        };
+
+        foreach (var item in enemyTable)
+        {
+            weightedTotal += item;
+
         }
+
+        var randomNumber = Random.Range(0, weightedTotal);
+        var i = 0;
+
+        foreach (var weight in enemyTable)
+        {
+            if (randomNumber <= weight)
+            {
+                _enemyToSpawn = EnemyToSpawn[i];
+                return;
+            }
+            else
+            {
+
+                i++;
+                randomNumber -= weight;
+            }
+
+        }
+
+
     }
 
-    IEnumerator SpawnSpaceBoatRoutine()
-    {
-        yield return new WaitForSeconds(_spaceBoatTimer);
-        while (_stopSpawning == false)
-        {
-            Vector3 posToSpawn = new Vector3(0, 10, 0);
-            GameObject newSpaceBoat = Instantiate(_enemySpaceBoat, posToSpawn, Quaternion.identity);
-            newSpaceBoat.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(7.0f);
-        }
-    }
 
-    IEnumerator SpawnSpaceTankRoutine()
-    {
-        yield return new WaitForSeconds(_spaceTankTimer);
-        while (_stopSpawning == false)
-        {
-            Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
-            GameObject newSpaceTank = Instantiate(_enemySpaceTank, posToSpawn, Quaternion.identity);
-            newSpaceTank.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(7.0f);
-        }
-    }
+
+
+
 
     void SpawnBoss()
     {

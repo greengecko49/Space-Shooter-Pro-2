@@ -76,5 +76,10 @@ public class Laser : MonoBehaviour
                 player.Damage();
             }
         }
+
+        if (other.tag == "Enemy" && _isEnemyLaser == true)
+        {
+            
+        }
     }
 }
